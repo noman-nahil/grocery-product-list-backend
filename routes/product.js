@@ -43,4 +43,26 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.put("/:id", (req, res) => {
+  const productId = req.params.id;
+  const { name, price, description, link } = req.body;
+  if (name !== "" && price !== "" && description !== "" && link !== "") {
+    const sql = `UPDATE product_list SET name='${name}',price ='${price}',description = '${description}',link='${link}'  WHERE id ='${productId}' `;
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error("Error updating the product:", err);
+        res.status(500).json({ error: "An error occurred" });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: "Product not found" });
+        } else {
+          res.json({ message: "Product updated successfully" });
+        }
+      }
+    });
+  } else {
+    res.json({ error: "All fields must not be empty." });
+  }
+});
+
 module.exports = router;
