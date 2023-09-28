@@ -26,4 +26,21 @@ router.post("/", (req, res) => {
   }
 });
 
+router.get("/:id", (req, res) => {
+  const productId = req.params.id;
+  const sql = `SELECT * FROM product_list WHERE id ='${productId}'`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error querying the database:", err);
+      res.status(500).json({ error: "An error occurred" });
+    } else if (results.length === 0) {
+      res.status(404).json({ error: "Product not found" });
+    } else {
+      const product = results[0];
+      res.json(product);
+    }
+  });
+});
+
 module.exports = router;
