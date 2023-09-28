@@ -3,7 +3,14 @@ const db = require("../database/db");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.send("Product List");
+  db.query("SELECT * FROM product_list", (error, results) => {
+    if (error) {
+      console.error("Error querying the database:", error);
+      res.status(500).json({ error: "An error occurred" });
+    } else {
+      res.json(results);
+    }
+  });
 });
 router.post("/", (req, res) => {
   const { name, price, description, link } = req.body;
@@ -18,4 +25,5 @@ router.post("/", (req, res) => {
     console.log("Something is missing");
   }
 });
+
 module.exports = router;
