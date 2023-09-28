@@ -65,4 +65,21 @@ router.put("/:id", (req, res) => {
   }
 });
 
+router.delete("/:id", (req, res) => {
+  const productId = req.params.id;
+  const sql = `DELETE FROM product_list WHERE id ='${productId}'`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error deleting the product:", err);
+      res.status(500).json({ error: "An error occurred" });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(404).json({ error: "Product not found" });
+      } else {
+        res.json({ message: "Product deleted successfully" });
+      }
+    }
+  });
+});
+
 module.exports = router;
