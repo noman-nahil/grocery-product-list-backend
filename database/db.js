@@ -5,22 +5,17 @@ db = mysql.createConnection({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DBNAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
-// if (process.env.JAWSDB_URL) {
-//   db = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USERNAME,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DBNAME,
-//   });
-// } else {
-//   db = mysql.createConnection({
-//     host: "127.0.0.1",
-//     database: "grocery-product",
-//     user: "root",
-//     password: "",
-//   });
-// }
+
+// db = mysql.createConnection({
+//   host: "127.0.0.1",
+//   database: "grocery-product",
+//   user: "root",
+//   password: "",
+// });
 
 // Connect to the database
 db.connect((error) => {
